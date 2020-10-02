@@ -58,17 +58,10 @@ Shader "Custom/ColorShader" {
 			return (RGB);
 		}
 
-		void surf (Input IN, inout SurfaceOutputStandard o) {
-			
-			// You should assign the variable hue to a value between 0 and 1 
-			// based on the distance of the vertex from the origin. 
-			// You have some input variables to work with which are:
-			// ```IN.worldPos.x``` and ```IN.worldPos.y``` (the vertex x and y) 
-			// and some functions you can use sqrt, pow, abs. 
-			// And the modulus operator %
-			// You can also use the built in variable _Time 
-			// that gives the time in seconds since the program started. It's a float.			
-			float hue = 1;
+		void surf(Input IN, inout SurfaceOutputStandard o) {
+			// Albedo comes from a texture tinted by color
+			float dist = sqrt(pow(IN.worldPos.x, 0) + pow(IN.worldPos.y, 0));
+			float hue = abs(((dist / 10.0f) - _Time)) % 1.0;
 			fixed3 c = hsv_to_rgb(float3(hue, 1, 1));
 			o.Albedo = c.rgb;
 			// Metallic and smoothness come from slider variables
